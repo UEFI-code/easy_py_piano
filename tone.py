@@ -24,7 +24,9 @@ class Tone:
         return chunk
 
     def up(self):
-        self.playing = False
+        remain_len = len(self.signal) - self.chunk_idx
+        if remain_len < 1: return
+        self.signal[self.chunk_idx:] *= self.reduce_line[:remain_len] ** 6
 
 if __name__ == "__main__":
     chunk_size = 2048
