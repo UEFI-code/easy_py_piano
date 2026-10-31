@@ -21,8 +21,8 @@ class Tone:
         if not self.playing: return np.zeros(chunk_size)
         chunk = self.signal[self.chunk_idx:self.chunk_idx + chunk_size]
         if chunk.size < chunk_size:
-            self.playing = False # over
             chunk = np.pad(chunk, (0, chunk_size - chunk.size), 'constant')
+            self.playing = False # over
         self.chunk_idx += chunk_size
         return chunk
 
