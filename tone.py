@@ -29,6 +29,12 @@ class Tone:
     def up(self):
         self.playing = False
 
+    def update(self, freq=660.0, amp=0.7):
+        self.frequency = freq
+        self.amplitude = amp
+        self.sine_table = self.amplitude * np.sin(2 * np.pi * self.frequency * self.ts)
+        self.signal = self.sine_table * self.reduce_line
+
 if __name__ == "__main__":
     chunk_size = 2048
     tone = Tone()
@@ -45,6 +51,15 @@ if __name__ == "__main__":
     line, = ax.plot([], [], lw=1.5)
 
     x = tone.ts[:chunk_size]
+    while tone.playing:
+        chunk = tone.get_chunk(chunk_size)
+        line.set_data(x, chunk)
+        fig.canvas.draw()
+        fig.canvas.flush_events()
+        plt.pause(0.01)
+
+    tone.update(freq=660.0, amp=0.7)
+    tone.down()
     while tone.playing:
         chunk = tone.get_chunk(chunk_size)
         line.set_data(x, chunk)
