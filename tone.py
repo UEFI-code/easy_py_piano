@@ -31,6 +31,9 @@ class Tone:
 
 if __name__ == "__main__":
     chunk_size = 2048
+    tone = Tone()
+    tone.down()
+
     plt.ion()
     fig, ax = plt.subplots()
     ax.set_xlim(0, chunk_size/44100)
@@ -41,9 +44,6 @@ if __name__ == "__main__":
     ax.grid(True)
     line, = ax.plot([], [], lw=1.5)
 
-    tone = Tone()
-    tone.down()
-    
     x = tone.ts[:chunk_size]
     while tone.playing:
         chunk = tone.get_chunk(chunk_size)
